@@ -11,6 +11,8 @@ import grpc
 import unary_pb2_grpc as pb2_grpc
 import unary_pb2 as pb2
 from concurrent import futures
+from pybreaker import CircuitBreaker, CircuitBreakerError
+
 
 ACCESS_KEY_ID = ''
 ACCESS_KEY = ''
@@ -19,6 +21,8 @@ filename = ''
 bucket_name = 'photosdcc'
 folder_name = 'photos/'
 folder_user = ''
+
+circuit_breaker = CircuitBreaker(fail_max=3, reset_timeout=20)
 
 s3 = None
 
@@ -42,8 +46,11 @@ class UnaryService(pb2_grpc.ImageServiceServicer):
         ACCESS_KEY = data['aws_accesskey']
         SESSION_TOKEN = data['aws_session_token']
         filename = data['filename']
-
-        name = recognition(filename)
+        try:
+            name = recognition(filename)
+        except CircuitBreakerError as e:
+            return {"status": 1}
+        
         names_json = json.dumps(name)
 
         return pb2.Nomi(nomi=names_json)
@@ -58,7 +65,7 @@ def serve():
     server.wait_for_termination()
    
 
-
+@circuit_breaker
 def recognition(filename):
 
     global s3

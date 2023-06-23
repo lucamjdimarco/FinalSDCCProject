@@ -7,6 +7,8 @@ import unary_pb2_grpc as pb2_grpc
 import unary_pb2 as pb2
 from concurrent import futures
 import boto3
+from pybreaker import CircuitBreaker, CircuitBreakerError
+
 
 EMAIL_ADDRESS = ''
 EMAIL_PASSWORD = ''
@@ -14,6 +16,8 @@ AWS_ACCESS_KEY_ID = ''
 AWS_ACCESS_KEY = ''
 AWS_SESSION_TOKEN = ''
 URL = ''
+
+circuit_breaker = CircuitBreaker(fail_max=3, reset_timeout=20)
 
 class UnaryService(pb2_grpc.EmailServiceServicer):
     def __init__(self):
@@ -35,8 +39,10 @@ class UnaryService(pb2_grpc.EmailServiceServicer):
         AWS_SESSION_TOKEN = data['aws_session_token']
         URL = data['url']
         nome = data['nome']
-
-        response = send(nome)
+        try:
+            response = send(nome)
+        except CircuitBreakerError as e:
+            return {"msg": "Error", "status": 1}
         response_json = json.dumps(response)
 
         return pb2.Response(response=response_json)
@@ -48,7 +54,7 @@ def serve():
     server.start()
     server.wait_for_termination()
 
-
+@circuit_breaker
 def send(nome):
 
     global EMAIL_ADDRESS

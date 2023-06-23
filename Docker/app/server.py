@@ -8,6 +8,7 @@ import urllib
 import grpc
 import unary_pb2_grpc as pb2_grpc
 import unary_pb2 as pb2
+from pybreaker import CircuitBreaker
 
 app = Flask(__name__, static_url_path='/static')
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
@@ -23,10 +24,13 @@ folder_user = ''
 
 s3 = None
 
+# Create a circuit breaker object
+circuit_breaker = CircuitBreaker(fail_max=3, reset_timeout=20)
+
 class UnaryClient(object):
     def __init__(self):
-        #self.host = 'face-rec-service.default.svc.cluster.local'
-        self.host = 'face-rec'
+        self.host = 'face-rec-service.default.svc.cluster.local'
+        #self.host = 'face-rec'
         self.port = 50051
         self.channel = grpc.insecure_channel('{}:{}'.format(self.host, self.port))
         self.stub = pb2_grpc.ImageServiceStub(self.channel)
@@ -38,8 +42,8 @@ class UnaryClient(object):
 
 class UnaryClientEmail(object):
     def __init__(self):
-        #self.host = 'mail-service.default.svc.cluster.local'
-        self.host = 'mail'
+        self.host = 'mail-service.default.svc.cluster.local'
+        #self.host = 'mail'
         self.port = 50052
         self.channel = grpc.insecure_channel('{}:{}'.format(self.host, self.port))
         self.stub = pb2_grpc.EmailServiceStub(self.channel)
@@ -91,6 +95,7 @@ def index():
     return render_template('login.html') 
 
 @app.route('/upload', methods=['POST'])
+@circuit_breaker
 def upload_file():
 
     data = request.json
@@ -188,6 +193,7 @@ def images():
     return jsonify({'immagini': images, 'nomi': nomi})
 
 @app.route('/sendemail', methods=['POST'])
+@circuit_breaker
 def send_email():
 
     data = request.json
