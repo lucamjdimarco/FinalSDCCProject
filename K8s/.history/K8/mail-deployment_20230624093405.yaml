@@ -1,35 +1,36 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: face-rec-deployment
+  name: mail-deployment
   labels:
-    io.kompose.service: face-rec
-    app: my-apps
+    io.kompose.service: mail
+    app: my-appz
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
-      app: my-apps
+      app: my-appz
   template:
     metadata:
       labels:
-        app: my-apps
+        app: my-appz
       annotations:
         config.linkerd.io/proxy-cpu-limit: '1'
         config.linkerd.io/proxy-cpu-request: '0.5'
     spec:
       restartPolicy: Always
       containers:
-        - name: face-rec
-          image: lucamjdimarco/docker-face-rec:latest
+        - name: mail
+          image: lucamjdimarco/docker-mail:latest
           imagePullPolicy: IfNotPresent
           args:
             - "python"
-            - "main.py"
+            - "sendemail.py"
           resources:
             limits:
-              cpu: "1"
-              memory: 1.5Gi
-            requests:
               cpu: 500m
-              memory: 1Gi 
+              memory: 1Gi
+            requests:
+              cpu: 250m
+              memory: 500mi 
+

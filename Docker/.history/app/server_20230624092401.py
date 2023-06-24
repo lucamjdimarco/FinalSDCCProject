@@ -25,7 +25,7 @@ folder_user = ''
 s3 = None
 
 # Create a circuit breaker object
-circuit_breaker = pybreaker.CircuitBreaker(fail_max=3, reset_timeout=30)
+circuit_breaker = pybreaker.CircuitBreaker(fail_max=3, reset_timeout=20)
 
 class UnaryClient(object):
     def __init__(self):

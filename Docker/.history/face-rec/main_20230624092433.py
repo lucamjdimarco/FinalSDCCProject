@@ -22,7 +22,7 @@ bucket_name = 'photosdcc'
 folder_name = 'photos/'
 folder_user = ''
 
-circuit_breaker = pybreaker.CircuitBreaker(fail_max=3, reset_timeout=30)
+circuit_breaker = CircuitBreaker(fail_max=3, reset_timeout=20)
 
 s3 = None
 
@@ -48,7 +48,7 @@ class UnaryService(pb2_grpc.ImageServiceServicer):
         filename = data['filename']
         try:
             name = recognition(filename)
-        except Exception as e:
+        except CircuitBreakerError as e:
             return {"status": 1}
         
         names_json = json.dumps(name)

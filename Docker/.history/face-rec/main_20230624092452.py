@@ -48,7 +48,7 @@ class UnaryService(pb2_grpc.ImageServiceServicer):
         filename = data['filename']
         try:
             name = recognition(filename)
-        except Exception as e:
+        except CircuitBreakerError as e:
             return {"status": 1}
         
         names_json = json.dumps(name)

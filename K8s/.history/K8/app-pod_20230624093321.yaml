@@ -14,8 +14,8 @@ spec:
       labels:
         app: my-app
       annotations:
-        config.linkerd.io/proxy-cpu-limit: '0.5'
-        config.linkerd.io/proxy-cpu-request: '0.25'
+        config.linkerd.io/proxy-cpu-limit: '1'
+        config.linkerd.io/proxy-cpu-request: '0.5'
     spec:
       restartPolicy: Always
       containers:

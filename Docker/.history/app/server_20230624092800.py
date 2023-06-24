@@ -29,8 +29,8 @@ circuit_breaker = pybreaker.CircuitBreaker(fail_max=3, reset_timeout=30)
 
 class UnaryClient(object):
     def __init__(self):
-        self.host = 'face-rec-service.default.svc.cluster.local'
-        #self.host = 'face-rec'
+        #self.host = 'face-rec-service.default.svc.cluster.local'
+        self.host = 'face-rec'
         self.port = 50051
         self.channel = grpc.insecure_channel('{}:{}'.format(self.host, self.port))
         self.stub = pb2_grpc.ImageServiceStub(self.channel)

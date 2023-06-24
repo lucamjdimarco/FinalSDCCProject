@@ -17,7 +17,7 @@ AWS_ACCESS_KEY = ''
 AWS_SESSION_TOKEN = ''
 URL = ''
 
-circuit_breaker = pybreaker.CircuitBreaker(fail_max=3, reset_timeout=30)
+circuit_breaker = pybreaker.CircuitBreaker(fail_max=3, reset_timeout=20)
 
 class UnaryService(pb2_grpc.EmailServiceServicer):
     def __init__(self):
