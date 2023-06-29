@@ -4,7 +4,7 @@ Il contenuto del seguente repository tratta lo sviluppo di una medesima applicaz
 2. un servizio di riconoscimento facciale che prende in input la foto precedenetemente inserita in S3 ed esegue il riconoscimento mediante un dataset di immagini statiche inserite in precedenza;
 3. un servizio di Email che permette di avvisare le persone all'interno della foto mediante una notifica via email.
 
-I tre servizi sono completamente distribuiti: nel caso di Kubernetes comunicano tra loro mediante gRPC, nel caso di serverless Lambda comunicano tra loro mediante chiamate XML.
+- I tre servizi sono completamente distribuiti: nel caso di Kubernetes comunicano tra loro mediante gRPC, nel caso di serverless Lambda comunicano tra loro mediante chiamate XML.
 
 ## Deploy dell'architettura a microservizi - EKS Cluster
 
