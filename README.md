@@ -11,7 +11,7 @@ Il contenuto del seguente repository tratta lo sviluppo di una medesima applicaz
 1. Per la creazione di una VPC e cluster EKS rimandiamo alla guida ufficiale: https://docs.aws.amazon.com/it_it/eks/latest/userguide/creating-a-vpc.html.
 2. Avere installato kubectl ed AWS CLI in locale sulla propria macchhina.
 3. Creare un gruppo di nodi:
--   si raccomanda di utilizzare macchine EC2 tg4.small o superiori (il deployment face_recognition richiede più capacità di calcolo e RAM).
+-   si raccomanda di utilizzare macchine EC2 t4g.small o superiori (il deployment face_recognition richiede più capacità di calcolo e RAM).
 4. Cambiare il contesto di kubectl con il comando:
 ```bash
 >> aws eks update-kubeconfig --region region-code --name my-cluster
