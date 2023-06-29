@@ -1,5 +1,9 @@
 # FinalSDCCProject
-Il contenuto del seguente repository tratta lo sviluppo di una medesima applicazione distibuita su due architetture diverse: a microservizi mediante un cluster Elastic Kubernetes Service e serverless mediante la AWS Lambda. Lo scopo dello sviluppo è verificare la differenza di costi/prestazioni e la difficoltà di implementazione/sviluppo tra le due architetture.
+Il contenuto del seguente repository tratta lo sviluppo di una medesima applicazione distibuita su due architetture diverse: a microservizi mediante un cluster Elastic Kubernetes Service e serverless mediante la AWS Lambda. Lo scopo dello sviluppo è verificare la differenza di costi/prestazioni e la difficoltà di implementazione/sviluppo tra le due architetture. L'applicazione è divisa in tre servizi principali:
+1. una Web App che permette di effettuare una login ed inserire una foto su un bucket S3;
+2. un servizio di riconoscimento facciale che prende in input la foto precedenetemente inserita in S3 ed esegue il riconoscimento mediante un dataset di immagini statiche inserite in precedenza;
+3. un servizio di Email che permette di avvisare le persone all'interno della foto mediante una notifica via email.
+I tre servizi sono completamente distribuiti: nel caso di Kubernetes comunicano tra loro mediante gRPC, nel caso di serverless Lambda comunicano tra loro mediante chiamate XML.
 
 ## Deploy dell'architettura a microservizi - EKS Cluster
 
