@@ -46,7 +46,7 @@ Se l'installazione è andata a buon fine, l'ouput  sarà del tipo:
 ```bash
 linkerd-proxy CONTAINER
 ```
-La cartella dash contiene tutti i file necessari per eseguire la dashboard di Kubernetes, utile per monitorare l'andamento del cluster. Rimandiamo alla guida ufficile ma alleghiamo di seguito i comandi più importanti:
+La cartella dash contiene tutti i file necessari per eseguire la dashboard di Kubernetes, utile per monitorare l'andamento del cluster. Rimandiamo alla guida ufficiale ma alleghiamo di seguito i comandi più importanti:
 ```bash
 >> kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml
 >> kubectl apply -f dashboard-adminuser.yaml
